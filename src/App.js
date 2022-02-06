@@ -9,6 +9,7 @@ import { Container } from 'react-bootstrap';
 import SchemaPage from './pages/SchemaPage';
 import CollectionPage from './pages/CollectionPage';
 import NotFoundPage from './pages/NotFoundPage';
+import UsersPage from './pages/UsersPage';
 
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
   const authCtx = useContext(AuthContext);
 
   return (
-    <Container className='bg-light shadow'>
+    <Container>
       <Switch>
         <Route path='/' exact>
           <LoginPage />
@@ -39,10 +40,17 @@ function App() {
             </Route>
           )
         }
-       {!authCtx.isLoggedIn && <Redirect to='/'></Redirect>}
-       <Route to='/not-found'>
+        {
+          authCtx.isLoggedIn && (
+            <Route path='/users'>
+              <UsersPage />
+            </Route>
+          )
+        }
+        {!authCtx.isLoggedIn && <Redirect to='/'></Redirect>}
+        <Route to='/not-found'>
           <NotFoundPage />
-       </Route>
+        </Route>
       </Switch>
     </Container>
   );

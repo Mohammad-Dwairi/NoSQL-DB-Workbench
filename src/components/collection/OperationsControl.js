@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Stack } from 'react-bootstrap';
+import AuthContext from '../../store/auth-context';
 
 
 const OperationsControl = props => {
 
     const { operation, onChange } = props;
+    const authCtx = useContext(AuthContext);
 
     return (
-        <Stack direction='horizontal' gap={2}>
+        <Stack direction='horizontal' gap={2} className='mt-5'>
             <input
                 value='read'
                 checked={operation === 'read'}
@@ -78,6 +80,19 @@ const OperationsControl = props => {
                 htmlFor="index">
                 Index
             </label>
+            {authCtx.role === 'ROLE_ADMIN' && <input
+                value='drop'
+                checked={operation === 'drop'}
+                onChange={onChange}
+                type="radio"
+                className="btn-check"
+                name="operations"
+                id="drop" />}
+           {authCtx.role === 'ROLE_ADMIN' && <label
+                className={'w-100 btn ' + (operation === 'drop' ? 'btn-danger' : 'btn-secondary')}
+                htmlFor="drop">
+                Drop Collection
+            </label>}
         </Stack>
     );
 };

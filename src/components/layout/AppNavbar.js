@@ -1,26 +1,26 @@
 import React, { useContext } from 'react';
 import { Navbar, Container, NavDropdown } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import AuthContext from '../../store/auth-context';
 
 const AppNavbar = props => {
-    
+
     const authCtx = useContext(AuthContext);
 
-    return (
-        <Navbar bg="dark" variant="dark" className='mb-5'>
-            <Container>
-                <Navbar.Brand>NoSQL Database Workbench</Navbar.Brand>
-                <Navbar.Toggle />
-                <Navbar.Text className='text-light' style={{fontSize: '14px'}}>Connected To: {authCtx.databaseAddress}</Navbar.Text>
-                <NavDropdown title={'Logged in: ' + authCtx.username}>
-                    <NavDropdown.Item href="#action/3.2">Security</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.4">Manage Users</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item onClick={() => authCtx.logout()}>Logout</NavDropdown.Item>
+    const history = useHistory();
 
-                </NavDropdown>
-            </Container>
+    return (
+        <Navbar bg="dark" variant="dark" className='mb-5 px-3 d-flex justify-content-between'>
+            <Navbar.Brand>
+                <div>NoSQL Database Workbench</div>
+                <div className='text-success' style={{ fontSize: '13px' }}>Connected To: {authCtx.databaseAddress}</div>
+            </Navbar.Brand>
+
+            <NavDropdown title={'Logged in: ' + authCtx.username}>
+                {authCtx.role === 'ROLE_ADMIN' && <NavDropdown.Item onClick={() => history.push('/users')}>Manage Users</NavDropdown.Item>}
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={() => authCtx.logout()}>Logout</NavDropdown.Item>
+            </NavDropdown>
         </Navbar>
     );
 };

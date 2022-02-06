@@ -57,7 +57,7 @@ const LoginForm = props => {
         }
 
         if (master) {
-            authCtx.login(responseData['accessToken'], responseData['username'], url);
+            authCtx.login(responseData['accessToken'], responseData['username'], responseData['role'], url);
             setIsLoading(false);
             history.replace('/home');
         }
@@ -70,8 +70,7 @@ const LoginForm = props => {
 
             if (replicaConnection.ok) {
                 const connection = await replicaConnection.text();
-                console.log('CONNECTION ' + connection);
-                authCtx.login(responseData['accessToken'], responseData['username'], connection);
+                authCtx.login(responseData['accessToken'], responseData['username'], responseData['role'], connection);
                 setIsLoading(false);
                 history.replace('/home');
             }
